@@ -3,6 +3,8 @@ const asyncHandler = require("express-async-handler");
 
 const createMovie = asyncHandler(async (req, res) => {
   try {
+    console.log("--invoking create movie--");
+
     const { title, priceUnit, synopsis } = req.body;
     console.log("request : ", req.body);
     const coverUrl = `uploads/${req.file.filename}`;
