@@ -1,4 +1,10 @@
-import { Box, Container } from "@mui/material";
+import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
+import { Box, Container, Typography } from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+
 import React, { useState } from "react";
 
 const ComponentDate = () => {
@@ -6,6 +12,12 @@ const ComponentDate = () => {
   const [startIndex, setStartIndex] = useState(0);
   const daysPerPage = 7;
   const totalDays = 60; // Modifier selon ton besoin
+
+  const [age, setAge] = useState("");
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
 
   // Génère un tableau des 7 prochains jours
   const getNextDays = (numDays) => {
@@ -48,54 +60,91 @@ const ComponentDate = () => {
       <Box
         sx={{
           display: "flex",
+          alignItems: "center",
           bgcolor: "#37474f",
           color: "white",
           borderRadius: 5,
         }}
       >
-        <h3>Date</h3>
+        <Box sx={{ margin: 5 }}>
+          <div>Date</div>
+        </Box>
+        <ArrowBackIosNew
+          onClick={handlePrev}
+          disabled={startIndex === 0}
+          sx={{ cursor: "pointer" }}
+        />
 
-        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+        <div
+          className=""
+          style={{
+            display: "flex",
+            gap: "10px",
+            flexWrap: "wrap",
+            margin: 10,
+          }}
+        >
           {visibleDays.map((day, index) => {
             const isSelected =
               selectedDate &&
               selectedDate.toDateString() === day.toDateString();
             return (
               <button
+                // className="b1"
                 key={index}
                 onClick={() => setSelectedDate(day)}
                 style={{
-                  padding: "10px 15px",
-                  borderRadius: "8px",
-                  border: isSelected ? "2px solid #1976d2" : "1px solid #ccc",
-                  backgroundColor: isSelected ? "#e3f2fd" : "#fff",
+                  padding: isSelected ? "10px 15px" : "10px 15px",
+                  borderRadius: "10px",
+                  border: isSelected ? "2px solid #ffc107" : "0px solid ",
+                  backgroundColor: isSelected ? "#455a64" : "#455a64",
                   cursor: "pointer",
                 }}
               >
-                {formatDate(day)}
+                <div style={{ fontWeight: "bold", color: "white" }}>
+                  {day.toLocaleDateString("en-EN", { weekday: "short" })}
+                </div>
+                <div style={{ color: "white" }}>
+                  <span>{day.getDate()}</span>
+                  <span style={{ margin: 5 }}>
+                    {day.toLocaleDateString("en-EN", { month: "short" })}{" "}
+                  </span>
+                </div>
               </button>
             );
           })}
         </div>
+        <ArrowForwardIos
+          onClick={handleNext}
+          disabled={startIndex + daysPerPage >= totalDays}
+          sx={{ cursor: "pointer" }}
+        />
 
-        <div style={{ marginTop: "20px", display: "flex", gap: "10px" }}>
-          <button onClick={handlePrev} disabled={startIndex === 0}>
-            ⬅ Précédent
-          </button>
-          <button
-            onClick={handleNext}
-            disabled={startIndex + daysPerPage >= totalDays}
-          >
-            Suivant ➡
-          </button>
+        <div>
+          <div>Time</div>
+          <Box sx={{ minWidth: 120 }}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Age</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={age}
+                label="Age"
+                onChange={handleChange}
+              >
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
         </div>
 
-        {selectedDate && (
-          <p style={{ marginTop: "20px" }}>
-            Date sélectionnée :{" "}
-            <strong>{selectedDate.toLocaleDateString("fr-FR")}</strong>
-          </p>
-        )}
+        {selectedDate &&
+          console.log(
+            "selected date ==>",
+            selectedDate.toLocaleDateString("fr-FR")
+          )}
       </Box>
     </Container>
   );

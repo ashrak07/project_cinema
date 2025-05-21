@@ -17,27 +17,27 @@ import MovieCarousel from "../Components/MovieCarousel";
 const movies = [
   {
     title: "Inception",
-    poster: "/public/40 ACRES (2024).jpg",
+    poster: "../../public/40 ACRES (2024).jpg",
   },
   {
     title: "Interstellar",
-    poster: "/public/ENVERS & CONTRE TOUS (2023).jpg",
+    poster: "../../public/ENVERS & CONTRE TOUS (2023).jpg",
   },
   {
     title: "Tenet",
-    poster: "https://image.tmdb.org/t/p/w200/k68nPLbIST6NP96JmTxmZijEvCA.jpg",
+    poster: "../../public/CAPITOL VS. CAPITOL (2025).jpg",
   },
   {
     title: "The Batman",
-    poster: "https://image.tmdb.org/t/p/w200/74xTEgt7R36Fpooo50r9T25onhq.jpg",
+    poster: "../../public/CENTAURES DE LA NIT (2024).jpg",
   },
   {
     title: "Dune",
-    poster: "https://image.tmdb.org/t/p/w200/d5NXSklXo0qyIYkgV94XAgMIckC.jpg",
+    poster: "../../public/CORRIDA DE LA PEUR (1951).jpg",
   },
   {
     title: "Avatar",
-    poster: "https://image.tmdb.org/t/p/w200/kyeqWdyUXW608n0w4eKTI6F3nq9.jpg",
+    poster: "../../public/HEROES DE BARRIO (2022).jpg",
   },
 ];
 

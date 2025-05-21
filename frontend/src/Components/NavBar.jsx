@@ -22,7 +22,7 @@ const NavBar = () => {
           }}
         >
           <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-            <IconButton sx={{ color: "white" }}>LOGO</IconButton>
+            <IconButton sx={{ color: "white" }}>CINEMAX</IconButton>
             <Box sx={{ display: "flex", gap: 2 }}>
               <Typography variant="h7" component="div" sx={{ flexGrow: 1 }}>
                 Movies

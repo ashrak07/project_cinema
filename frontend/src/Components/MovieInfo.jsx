@@ -11,63 +11,50 @@ import React from "react";
 
 const MovieInfo = () => {
   return (
-    <div className="b3">
+    <div className="">
       <Container>
         <Card
-          className="b4"
+          elevation={0}
+          className=""
           sx={{
+            marginY: 5,
             display: "flex",
+            justifyContent: "space-between",
+            background: "#263238",
+            border: "none",
           }}
         >
           <CardMedia
             component="img"
             alt="green iguana"
-            image="../../src/assets/40 ACRES (2024).jpg"
+            image="../../public/CAPITOL VS. CAPITOL (2025).jpg"
             sx={{
+              borderRadius: 10,
               height: 500,
               width: 300,
             }}
           ></CardMedia>
-          <CardContent className="b2" sx={{}}>
-            <Typography variant="h3">
+          <CardContent className="" sx={{ marginLeft: 10 }}>
+            <Typography variant="h3" color="white">
               Lorem ipsum dolor sit amet consectetur
             </Typography>
-            <div
-              style={{
+            <Box
+              sx={{
+                marginY: 2,
                 display: "flex",
-                gap: 5,
+                gap: 2,
               }}
             >
-              <Chip label="Thriller"></Chip>
-              <Chip label="Thriller outlined" variant="outlined"></Chip>
-              <Box
-                sx={{
-                  border: 1,
-                  borderRadius: 8,
-                  paddingX: 2,
-                }}
-              >
-                Thriller
-              </Box>
-              <Box
-                sx={{
-                  border: 1,
-                  borderRadius: 8,
-                  paddingX: 2,
-                }}
-              >
-                Thriller
-              </Box>
-              <Box
-                sx={{
-                  border: 1,
-                  borderRadius: 8,
-                  paddingX: 2,
-                }}
-              >
-                Thriller
-              </Box>
-            </div>
+              <Chip
+                label="Thriller"
+                sx={{ color: "white", background: "#546e7a" }}
+              ></Chip>
+              <Chip
+                label="Thriller outlined"
+                variant="outlined"
+                sx={{ color: "white" }}
+              ></Chip>
+            </Box>
             <Typography
               style={{
                 whiteSpace: "nowrap",
@@ -83,7 +70,7 @@ const MovieInfo = () => {
             </Typography>
             <div>
               <Box
-                className="b1"
+                className=""
                 sx={{
                   marginY: 1,
                 }}
@@ -92,7 +79,7 @@ const MovieInfo = () => {
                 <Typography>Lorem ipsum dolor sit amet.</Typography>
               </Box>
               <Box
-                className="b1"
+                className=""
                 sx={{
                   marginY: 1,
                 }}
@@ -101,7 +88,7 @@ const MovieInfo = () => {
                 <Typography>Lorem ipsum dolor sit amet.</Typography>
               </Box>
               <Box
-                className="b1"
+                className=""
                 sx={{
                   marginY: 1,
                 }}

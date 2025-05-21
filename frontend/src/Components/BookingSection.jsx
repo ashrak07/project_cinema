@@ -1,5 +1,6 @@
 import React from "react";
 import CartComponent from "./CartComponent";
+import SeatPicker from "./SeatPicker";
 
 const BookingSection = () => {
   return (
@@ -15,7 +16,7 @@ const BookingSection = () => {
         <CartComponent />
       </div>
       <div style={{ backgroundColor: "#e0e0e0", padding: "10px" }}>
-        Colonne 2
+        <SeatPicker />
       </div>
     </div>
   );
