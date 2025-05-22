@@ -1,24 +1,32 @@
 import React from "react";
 import CartComponent from "./CartComponent";
 import SeatPicker from "./SeatPicker";
+import { Container } from "@mui/material";
 
 const BookingSection = () => {
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        gap: "20px",
-        padding: "20px",
-      }}
-    >
-      <div style={{ backgroundColor: "#f0f0f0", padding: "10px" }}>
-        <CartComponent />
+    <Container>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 2fr",
+          gap: "50px",
+        }}
+      >
+        <div className="" style={{}}>
+          <CartComponent />
+        </div>
+        <div
+          style={{
+            backgroundColor: "#78909c",
+            padding: "10px",
+            borderRadius: 10,
+          }}
+        >
+          <SeatPicker />
+        </div>
       </div>
-      <div style={{ backgroundColor: "#e0e0e0", padding: "10px" }}>
-        <SeatPicker />
-      </div>
-    </div>
+    </Container>
   );
 };
 

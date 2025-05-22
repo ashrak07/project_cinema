@@ -46,9 +46,9 @@ const MovieCarousel = ({ movies }) => {
               display: "flex",
               overflow: "hidden",
               gap: "30px",
-              // padding: "10px",
+              paddingLeft: "30px",
               width: "100%",
-              justifyContent: "center",
+              justifyContent: "start",
             }}
             className=""
           >
@@ -82,9 +82,13 @@ const MovieCarousel = ({ movies }) => {
                 <p
                   className=""
                   style={{
+                    paddingInline: 9,
                     color: "white",
                     marginTop: "2px",
+                    whiteSpace: "nowrap",
                     marginBottom: "2px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
                   }}
                 >
                   {movie.title}

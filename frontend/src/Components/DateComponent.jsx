@@ -1,6 +1,7 @@
 import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 import { Box, Container, Typography } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
+import FormHelperText from "@mui/material/FormHelperText";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -18,7 +19,6 @@ const ComponentDate = () => {
   const handleChange = (event) => {
     setAge(event.target.value);
   };
-
   // Génère un tableau des 7 prochains jours
   const getNextDays = (numDays) => {
     const days = [];
@@ -61,80 +61,147 @@ const ComponentDate = () => {
         sx={{
           display: "flex",
           alignItems: "center",
+          justifyContent: "space-between",
           bgcolor: "#37474f",
           color: "white",
           borderRadius: 5,
+          mt: 2,
         }}
       >
-        <Box sx={{ margin: 5 }}>
-          <div>Date</div>
-        </Box>
-        <ArrowBackIosNew
-          onClick={handlePrev}
-          disabled={startIndex === 0}
-          sx={{ cursor: "pointer" }}
-        />
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <Box sx={{ margin: 5 }}>
+            <div>Date</div>
+          </Box>
 
-        <div
-          className=""
-          style={{
-            display: "flex",
-            gap: "10px",
-            flexWrap: "wrap",
-            margin: 10,
-          }}
-        >
-          {visibleDays.map((day, index) => {
-            const isSelected =
-              selectedDate &&
-              selectedDate.toDateString() === day.toDateString();
-            return (
-              <button
-                // className="b1"
-                key={index}
-                onClick={() => setSelectedDate(day)}
-                style={{
-                  padding: isSelected ? "10px 15px" : "10px 15px",
-                  borderRadius: "10px",
-                  border: isSelected ? "2px solid #ffc107" : "0px solid ",
-                  backgroundColor: isSelected ? "#455a64" : "#455a64",
-                  cursor: "pointer",
-                }}
-              >
-                <div style={{ fontWeight: "bold", color: "white" }}>
-                  {day.toLocaleDateString("en-EN", { weekday: "short" })}
-                </div>
-                <div style={{ color: "white" }}>
-                  <span>{day.getDate()}</span>
-                  <span style={{ margin: 5 }}>
-                    {day.toLocaleDateString("en-EN", { month: "short" })}{" "}
-                  </span>
-                </div>
-              </button>
-            );
-          })}
+          <ArrowBackIosNew
+            onClick={handlePrev}
+            disabled={startIndex === 0}
+            sx={{ cursor: "pointer" }}
+          />
+
+          <div
+            className=""
+            style={{
+              display: "flex",
+              gap: "10px",
+              flexWrap: "wrap",
+              margin: 10,
+            }}
+          >
+            {visibleDays.map((day, index) => {
+              const isSelected =
+                selectedDate &&
+                selectedDate.toDateString() === day.toDateString();
+              return (
+                <button
+                  // className="b1"
+                  key={index}
+                  onClick={() => setSelectedDate(day)}
+                  style={{
+                    padding: isSelected ? "10px 15px" : "10px 15px",
+                    borderRadius: "10px",
+                    border: isSelected ? "2px solid #ffc107" : "0px solid ",
+                    backgroundColor: isSelected ? "#455a64" : "#455a64",
+                    cursor: "pointer",
+                  }}
+                >
+                  <div style={{ fontWeight: "bold", color: "white" }}>
+                    {day.toLocaleDateString("en-EN", { weekday: "short" })}
+                  </div>
+                  <div style={{ color: "white" }}>
+                    <div className="">{day.getDate()}</div>
+                    <div style={{ margin: 5 }}>
+                      {day.toLocaleDateString("en-EN", { month: "short" })}
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+          <ArrowForwardIos
+            onClick={handleNext}
+            disabled={startIndex + daysPerPage >= totalDays}
+            sx={{ cursor: "pointer" }}
+          />
         </div>
-        <ArrowForwardIos
-          onClick={handleNext}
-          disabled={startIndex + daysPerPage >= totalDays}
-          sx={{ cursor: "pointer" }}
-        />
 
-        <div>
+        <div className="" style={{}}>
           <div>Time</div>
-          <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Age</InputLabel>
+          <Box className="" sx={{ minWidth: 120 }}>
+            <FormControl
+              sx={{ mt: 1, minWidth: 120, borderColor: "white" }}
+              variant="standard"
+            >
               <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
                 value={age}
-                label="Age"
                 onChange={handleChange}
+                displayEmpty
+                inputProps={{ "aria-label": "Without label" }}
+                disableUnderline // ❌ enlève la ligne du bas
+                IconComponent={undefined} // si tu veux cacher l’icône par défaut
+                sx={{
+                  backgroundColor: "transparent",
+                  color: "white",
+                  "& .MuiSelect-icon": {
+                    color: "white", // couleur de la flèche
+                  },
+                }}
+                // sx={{
+                //   color: "white",
+                //   "& .MuiOutlinedInput-notchedOutline": {
+                //     borderColor: "#ffc107", // couleur de la bordure
+                //   },
+                //   "&:hover .MuiOutlinedInput-notchedOutline": {
+                //     borderColor: "#ffeb3b", // bordure au survol
+                //   },
+                //   "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                //     borderColor: "#ff9800", // bordure quand c’est focus
+                //   },
+                // }}
               >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value={10}>20:00 PM</MenuItem>
+                <MenuItem value={20}>10:00 AM</MenuItem>
+                <MenuItem value={30}>08:00 PM</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </div>
+        <div className="" style={{}}>
+          <div>Type</div>
+          <Box className="" sx={{ minWidth: 120 }}>
+            <FormControl
+              sx={{ mt: 1, minWidth: 60, borderColor: "white" }}
+              variant="standard"
+            >
+              <Select
+                value={age}
+                onChange={handleChange}
+                displayEmpty
+                inputProps={{ "aria-label": "Without label" }}
+                disableUnderline // ❌ enlève la ligne du bas
+                IconComponent={undefined} // si tu veux cacher l’icône par défaut
+                sx={{
+                  backgroundColor: "transparent",
+                  color: "white",
+                  "& .MuiSelect-icon": {
+                    color: "white", // couleur de la flèche
+                  },
+                }}
+                // sx={{
+                //   color: "white",
+                //   "& .MuiOutlinedInput-notchedOutline": {
+                //     borderColor: "#ffc107", // couleur de la bordure
+                //   },
+                //   "&:hover .MuiOutlinedInput-notchedOutline": {
+                //     borderColor: "#ffeb3b", // bordure au survol
+                //   },
+                //   "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                //     borderColor: "#ff9800", // bordure quand c’est focus
+                //   },
+                // }}
+              >
+                <MenuItem value="">2D</MenuItem>
+                <MenuItem value={10}>3D</MenuItem>
               </Select>
             </FormControl>
           </Box>

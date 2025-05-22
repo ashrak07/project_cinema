@@ -16,7 +16,7 @@ import MovieCarousel from "../Components/MovieCarousel";
 
 const movies = [
   {
-    title: "Inception",
+    title: "Inception text ellipsis Inception ",
     poster: "../../public/40 ACRES (2024).jpg",
   },
   {

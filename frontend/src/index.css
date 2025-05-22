@@ -1,3 +1,17 @@
+@font-face {
+  font-family: "Montserrat";
+  src: url("./assets/fonts/Montserrat-VariableFont_wght.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("./assets/fonts/Montserrat-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
 .b1 {
   background-color: rgb(137, 243, 243);
 }
@@ -35,4 +49,11 @@ li {
   justify-content: center;
   align-items: center;
   padding-inline: 0.5rem;
+}
+
+h5 {
+  font-family: "Quicksand";
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
 }

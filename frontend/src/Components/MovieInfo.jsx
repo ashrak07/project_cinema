@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Card,
@@ -6,8 +7,13 @@ import {
   Chip,
   Container,
   Typography,
+  Stack,
+  IconButton,
+  Divider,
 } from "@mui/material";
-import React from "react";
+import DoneIcon from "@mui/icons-material/Done";
+import SlideshowIcon from "@mui/icons-material/Slideshow";
+import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 
 const MovieInfo = () => {
   return (
@@ -50,25 +56,65 @@ const MovieInfo = () => {
                 sx={{ color: "white", background: "#546e7a" }}
               ></Chip>
               <Chip
+                label="Action"
+                sx={{ color: "white", background: "#546e7a" }}
+              ></Chip>
+              <Chip
+                label="Fiction"
+                sx={{ color: "white", background: "#546e7a" }}
+              ></Chip>
+              {/* <Chip
                 label="Thriller outlined"
                 variant="outlined"
                 sx={{ color: "white" }}
-              ></Chip>
+              ></Chip> */}
             </Box>
+            <div
+              className=""
+              style={{ marginBlock: 0, display: "flex", alignItems: "center" }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: "#546e7a ",
+                  color: "white",
+                  width: 50,
+                  borderRadius: 5,
+                  paddingTop: ".1rem",
+                  textAlign: "center",
+                }}
+              >
+                <SlideshowIcon sx={{ fontSize: 20 }} />
+              </Box>
+              <h4 style={{ color: "white", marginInline: 5 }}>3h45mn</h4>
+            </div>
             <Typography
               style={{
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                width: "300px", // ou 100%, selon le cas
+                color: "white",
+                // textOverflow: "ellipsis",
+                // width: "300px",
               }}
             >
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Accusantium totam, libero ad eaque assumenda consequatur veniam
-              ex. Atque, consequuntur non. Quas ad repellat distinctio ratione
-              error quam. Labore, cupiditate repellendus!
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Blanditiis harum quod fuga velit possimus soluta asperiores nobis
+              labore eveniet quos, beatae doloribus nam itaque delectus eum, ab
+              nulla cupiditate, porro nesciunt? Repellat, optio minima autem
+              eligendi temporibus quia? Ea assumenda atque minus labore sequi
+              cumque sit quidem voluptatum ipsam aut incidunt cum nemo alias
+              inventore quia, soluta, est libero natus repudiandae, voluptatibus
+              veniam maiores saepe aliquid. Alias ipsam culpa ut exercitationem
+              est magnam nesciunt, delectus ex nihil placeat suscipit sapiente.
+              Esse digni sit alias quaerat neque vel reprehenderit laboriosam
+              similique!
             </Typography>
-            <div>
+            <div
+              className=""
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                color: "white",
+                mt: 3,
+              }}
+            >
               <Box
                 className=""
                 sx={{
@@ -76,6 +122,8 @@ const MovieInfo = () => {
                 }}
               >
                 <Typography>Director</Typography>
+                <Divider sx={{ background: "red", height: 2 }}></Divider>
+
                 <Typography>Lorem ipsum dolor sit amet.</Typography>
               </Box>
               <Box
@@ -84,7 +132,9 @@ const MovieInfo = () => {
                   marginY: 1,
                 }}
               >
-                <Typography>Director</Typography>
+                <Typography>Writer</Typography>
+                <Divider sx={{ background: "red", height: 2 }}></Divider>
+
                 <Typography>Lorem ipsum dolor sit amet.</Typography>
               </Box>
               <Box
@@ -93,7 +143,8 @@ const MovieInfo = () => {
                   marginY: 1,
                 }}
               >
-                <Typography>Director</Typography>
+                <Typography>Stars</Typography>
+                <Divider sx={{ background: "red", height: 2 }}></Divider>
                 <Typography>Lorem ipsum dolor sit amet.</Typography>
               </Box>
             </div>
