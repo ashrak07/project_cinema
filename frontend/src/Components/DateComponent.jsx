@@ -14,10 +14,14 @@ const ComponentDate = () => {
   const daysPerPage = 7;
   const totalDays = 60; // Modifier selon ton besoin
 
-  const [age, setAge] = useState("");
+  const [time, setTime] = useState("");
+  const [type, setType] = useState("");
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const handleChangeTime = (event) => {
+    setTime(event.target.value);
+  };
+  const handleChangeType = (event) => {
+    setType(event.target.value);
   };
   // Génère un tableau des 7 prochains jours
   const getNextDays = (numDays) => {
@@ -65,18 +69,27 @@ const ComponentDate = () => {
           bgcolor: "#37474f",
           color: "white",
           borderRadius: 5,
-          mt: 2,
+          mY: 2,
         }}
       >
         <div style={{ display: "flex", alignItems: "center" }}>
           <Box sx={{ margin: 5 }}>
-            <div>Date</div>
+            <Typography variant="h5" fontFamily={"Montserrat"} fontWeight={600}>
+              Date
+            </Typography>
           </Box>
 
           <ArrowBackIosNew
             onClick={handlePrev}
             disabled={startIndex === 0}
-            sx={{ cursor: "pointer" }}
+            sx={{
+              ":hover": {
+                color: "#ff8f00",
+                cursor: "pointer",
+                transform: "scale(1.3)",
+                transition: "all 0.3s ease",
+              },
+            }}
           />
 
           <div
@@ -100,17 +113,31 @@ const ComponentDate = () => {
                   style={{
                     padding: isSelected ? "10px 15px" : "10px 15px",
                     borderRadius: "10px",
-                    border: isSelected ? "2px solid #ffc107" : "0px solid ",
+                    border: isSelected ? "2px solid #ff8f00" : "0px solid ",
                     backgroundColor: isSelected ? "#455a64" : "#455a64",
                     cursor: "pointer",
                   }}
                 >
-                  <div style={{ fontWeight: "bold", color: "white" }}>
+                  <div
+                    style={{
+                      fontWeight: "normal",
+                      color: "white",
+                      fontFamily: "Quicksand",
+                    }}
+                  >
                     {day.toLocaleDateString("en-EN", { weekday: "short" })}
                   </div>
-                  <div style={{ color: "white" }}>
-                    <div className="">{day.getDate()}</div>
-                    <div style={{ margin: 5 }}>
+                  <div
+                    style={{
+                      fontWeight: "normal",
+                      color: "white",
+                      fontFamily: "Quicksand",
+                    }}
+                  >
+                    <div style={{ fontWeight: 600, marginBlock: 3 }}>
+                      {day.getDate()}
+                    </div>
+                    <div style={{}}>
                       {day.toLocaleDateString("en-EN", { month: "short" })}
                     </div>
                   </div>
@@ -121,24 +148,33 @@ const ComponentDate = () => {
           <ArrowForwardIos
             onClick={handleNext}
             disabled={startIndex + daysPerPage >= totalDays}
-            sx={{ cursor: "pointer" }}
+            sx={{
+              ":hover": {
+                color: "#ff8f00",
+                cursor: "pointer",
+                transform: "scale(1.3)",
+                transition: "all 0.3s ease",
+              },
+            }}
           />
         </div>
 
         <div className="" style={{}}>
-          <div>Time</div>
+          <Typography variant="h5" fontFamily={"Montserrat"} fontWeight={600}>
+            Time
+          </Typography>
           <Box className="" sx={{ minWidth: 120 }}>
             <FormControl
-              sx={{ mt: 1, minWidth: 120, borderColor: "white" }}
+              sx={{ minWidth: 120, borderColor: "white" }}
               variant="standard"
             >
               <Select
-                value={age}
-                onChange={handleChange}
+                value={time}
+                onChange={handleChangeTime}
                 displayEmpty
                 inputProps={{ "aria-label": "Without label" }}
-                disableUnderline // ❌ enlève la ligne du bas
-                IconComponent={undefined} // si tu veux cacher l’icône par défaut
+                disableUnderline // enlève la ligne du bas
+                IconComponent={undefined} //  cacher l’icône par défaut
                 sx={{
                   backgroundColor: "transparent",
                   color: "white",
@@ -146,40 +182,32 @@ const ComponentDate = () => {
                     color: "white", // couleur de la flèche
                   },
                 }}
-                // sx={{
-                //   color: "white",
-                //   "& .MuiOutlinedInput-notchedOutline": {
-                //     borderColor: "#ffc107", // couleur de la bordure
-                //   },
-                //   "&:hover .MuiOutlinedInput-notchedOutline": {
-                //     borderColor: "#ffeb3b", // bordure au survol
-                //   },
-                //   "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                //     borderColor: "#ff9800", // bordure quand c’est focus
-                //   },
-                // }}
               >
-                <MenuItem value={10}>20:00 PM</MenuItem>
-                <MenuItem value={20}>10:00 AM</MenuItem>
-                <MenuItem value={30}>08:00 PM</MenuItem>
+                <MenuItem default value={20}>
+                  20:00 PM
+                </MenuItem>
+                <MenuItem value={10}>10:00 AM</MenuItem>
+                <MenuItem value={8}>08:00 PM</MenuItem>
               </Select>
             </FormControl>
           </Box>
         </div>
         <div className="" style={{}}>
-          <div>Type</div>
+          <Typography variant="h5" fontFamily={"Montserrat"} fontWeight={600}>
+            Type
+          </Typography>
           <Box className="" sx={{ minWidth: 120 }}>
             <FormControl
-              sx={{ mt: 1, minWidth: 60, borderColor: "white" }}
+              sx={{ minWidth: 80, borderColor: "white" }}
               variant="standard"
             >
               <Select
-                value={age}
-                onChange={handleChange}
+                value={type}
+                onChange={handleChangeType}
                 displayEmpty
                 inputProps={{ "aria-label": "Without label" }}
-                disableUnderline // ❌ enlève la ligne du bas
-                IconComponent={undefined} // si tu veux cacher l’icône par défaut
+                disableUnderline //  enlève la ligne du bas
+                IconComponent={undefined} // cacher l’icône par défaut
                 sx={{
                   backgroundColor: "transparent",
                   color: "white",
@@ -187,21 +215,9 @@ const ComponentDate = () => {
                     color: "white", // couleur de la flèche
                   },
                 }}
-                // sx={{
-                //   color: "white",
-                //   "& .MuiOutlinedInput-notchedOutline": {
-                //     borderColor: "#ffc107", // couleur de la bordure
-                //   },
-                //   "&:hover .MuiOutlinedInput-notchedOutline": {
-                //     borderColor: "#ffeb3b", // bordure au survol
-                //   },
-                //   "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                //     borderColor: "#ff9800", // bordure quand c’est focus
-                //   },
-                // }}
               >
-                <MenuItem value="">2D</MenuItem>
-                <MenuItem value={10}>3D</MenuItem>
+                <MenuItem value={2}>2D</MenuItem>
+                <MenuItem value={3}>3D</MenuItem>
               </Select>
             </FormControl>
           </Box>

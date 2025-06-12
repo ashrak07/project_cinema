@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import {
   Box,
   Card,
@@ -11,11 +12,15 @@ import {
   IconButton,
   Divider,
 } from "@mui/material";
+
 import DoneIcon from "@mui/icons-material/Done";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 
 const MovieInfo = () => {
+  const prj = useSelector((state) => state.projections.selectedProjection);
+  console.log("zany ary ny avy am state ==>", prj);
+
   return (
     <div className="">
       <Container>
@@ -23,9 +28,10 @@ const MovieInfo = () => {
           elevation={0}
           className=""
           sx={{
-            marginY: 5,
-            display: "flex",
-            justifyContent: "space-between",
+            marginY: 10,
+            display: "grid",
+            gap: 10,
+            gridTemplateColumns: "1fr 3fr",
             background: "#263238",
             border: "none",
           }}
@@ -33,18 +39,19 @@ const MovieInfo = () => {
           <CardMedia
             component="img"
             alt="green iguana"
-            image="../../public/CAPITOL VS. CAPITOL (2025).jpg"
+            src={`http://localhost:3001/${prj.movie.cover}`}
             sx={{
               borderRadius: 10,
               height: 500,
               width: 300,
             }}
           ></CardMedia>
-          <CardContent className="" sx={{ marginLeft: 10 }}>
-            <Typography variant="h3" color="white">
-              Lorem ipsum dolor sit amet consectetur
+          <CardContent className="" sx={{}}>
+            <Typography variant="h3" color="white" fontFamily={"BebasNeue"}>
+              {prj.movie.title}
             </Typography>
             <Box
+              className=""
               sx={{
                 marginY: 2,
                 display: "flex",
@@ -53,29 +60,40 @@ const MovieInfo = () => {
             >
               <Chip
                 label="Thriller"
-                sx={{ color: "white", background: "#546e7a" }}
+                sx={{
+                  color: "white",
+                  fontFamily: "Nunito",
+                  background: "#546e7a",
+                }}
               ></Chip>
               <Chip
                 label="Action"
-                sx={{ color: "white", background: "#546e7a" }}
+                sx={{
+                  color: "white",
+                  background: "#546e7a",
+                  fontFamily: "Nunito",
+                }}
               ></Chip>
               <Chip
                 label="Fiction"
-                sx={{ color: "white", background: "#546e7a" }}
+                sx={{
+                  color: "white",
+                  background: "#546e7a",
+                  fontFamily: "Nunito",
+                }}
               ></Chip>
-              {/* <Chip
-                label="Thriller outlined"
-                variant="outlined"
-                sx={{ color: "white" }}
-              ></Chip> */}
             </Box>
             <div
               className=""
-              style={{ marginBlock: 0, display: "flex", alignItems: "center" }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: 30,
+              }}
             >
               <Box
                 sx={{
-                  backgroundColor: "#546e7a ",
+                  backgroundColor: "#ba68c8 ",
                   color: "white",
                   width: 50,
                   borderRadius: 5,
@@ -83,34 +101,53 @@ const MovieInfo = () => {
                   textAlign: "center",
                 }}
               >
-                <SlideshowIcon sx={{ fontSize: 20 }} />
+                <SlideshowIcon sx={{ fontSize: 17 }} />
               </Box>
-              <h4 style={{ color: "white", marginInline: 5 }}>3h45mn</h4>
+              <Typography
+                variant="body"
+                style={{
+                  color: "white",
+                  marginInline: 5,
+                  marginRight: 30,
+                  fontSize: "small",
+                  fontWeight: "bold",
+                }}
+              >
+                3h45mn
+              </Typography>
+              <Box
+                sx={{
+                  backgroundColor: "#81c784 ",
+                  color: "white",
+                  width: 50,
+                  borderRadius: 5,
+                  paddingTop: ".1rem",
+                  textAlign: "center",
+                }}
+              >
+                <HourglassBottomIcon sx={{ fontSize: 16 }} />
+              </Box>
+              <Typography
+                variant="body"
+                style={{
+                  color: "white",
+                  marginInline: 5,
+                  fontSize: "small",
+                  fontWeight: "bold",
+                }}
+              >
+                10h00 PM
+              </Typography>
             </div>
-            <Typography
-              style={{
-                color: "white",
-                // textOverflow: "ellipsis",
-                // width: "300px",
-              }}
-            >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Blanditiis harum quod fuga velit possimus soluta asperiores nobis
-              labore eveniet quos, beatae doloribus nam itaque delectus eum, ab
-              nulla cupiditate, porro nesciunt? Repellat, optio minima autem
-              eligendi temporibus quia? Ea assumenda atque minus labore sequi
-              cumque sit quidem voluptatum ipsam aut incidunt cum nemo alias
-              inventore quia, soluta, est libero natus repudiandae, voluptatibus
-              veniam maiores saepe aliquid. Alias ipsam culpa ut exercitationem
-              est magnam nesciunt, delectus ex nihil placeat suscipit sapiente.
-              Esse digni sit alias quaerat neque vel reprehenderit laboriosam
-              similique!
+            <Typography className="" variant="body" color="white">
+              {prj.movie.synopsis}
             </Typography>
-            <div
+            <Box
               className=""
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1fr",
+                gap: 5,
                 color: "white",
                 mt: 3,
               }}
@@ -121,10 +158,20 @@ const MovieInfo = () => {
                   marginY: 1,
                 }}
               >
-                <Typography>Director</Typography>
-                <Divider sx={{ background: "red", height: 2 }}></Divider>
+                <Typography
+                  fontFamily={"Montserrat"}
+                  variant={"h6"}
+                  fontWeight={600}
+                >
+                  Director
+                </Typography>
+                <Divider
+                  sx={{ background: " #ff8f00 ", height: 2, mb: 1 }}
+                ></Divider>
 
-                <Typography>Lorem ipsum dolor sit amet.</Typography>
+                <Typography variant="body" fontSize={14}>
+                  Lorem ipsum dolor sit amet.
+                </Typography>
               </Box>
               <Box
                 className=""
@@ -132,10 +179,21 @@ const MovieInfo = () => {
                   marginY: 1,
                 }}
               >
-                <Typography>Writer</Typography>
-                <Divider sx={{ background: "red", height: 2 }}></Divider>
+                <Typography
+                  fontFamily={"Montserrat"}
+                  variant={"h6"}
+                  fontWeight={600}
+                >
+                  Writer
+                </Typography>
+                <Divider
+                  // sx={{ background: " #ffca28", height: 2, mb: 1 }}
+                  sx={{ background: " #ffe082", height: 2, mb: 1 }}
+                ></Divider>
 
-                <Typography>Lorem ipsum dolor sit amet.</Typography>
+                <Typography variant="body" fontSize={14}>
+                  Lorem ipsum dolor sit amet.
+                </Typography>
               </Box>
               <Box
                 className=""
@@ -143,11 +201,22 @@ const MovieInfo = () => {
                   marginY: 1,
                 }}
               >
-                <Typography>Stars</Typography>
-                <Divider sx={{ background: "red", height: 2 }}></Divider>
-                <Typography>Lorem ipsum dolor sit amet.</Typography>
+                <Typography
+                  fontFamily={"Montserrat"}
+                  variant={"h6"}
+                  fontWeight={600}
+                >
+                  Stars
+                </Typography>
+                <Divider
+                  sx={{ background: "#ffe082", height: 2, mb: 1 }}
+                ></Divider>
+                <Typography variant="body" fontSize={14}>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Est,
+                  possimus?
+                </Typography>
               </Box>
-            </div>
+            </Box>
           </CardContent>
         </Card>
       </Container>

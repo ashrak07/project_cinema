@@ -5,16 +5,20 @@ import Movies from "../Components/Movies";
 import DateComponent from "../Components/DateComponent";
 import MovieInfo from "../Components/MovieInfo";
 import BookingSection from "../Components/BookingSection";
+import { useSelector } from "react-redux";
 // import MovieCarousel from "../Components/MovieCarousel";
 
 const Home = () => {
+  const isProjection = useSelector(
+    (state) => state.projections.existingProjection
+  );
   return (
     <div>
       {/* <MovieCarousel /> */}
       <Movies />
       <DateComponent />
-      <MovieInfo />
-      <BookingSection />
+      {isProjection ? <MovieInfo /> : null}
+      {isProjection ? <BookingSection /> : null}
     </div>
   );
 };

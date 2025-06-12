@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const reservationSchema = mongoose.Schema({
+const orderSchema = mongoose.Schema({
   projection: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Projections",
@@ -13,19 +13,20 @@ const reservationSchema = mongoose.Schema({
   },
   clientName: {
     type: String,
-    required: true,
   },
   clientEmail: {
     type: String,
   },
-  seats: {
-    type: Number,
-    required: true,
-  },
+  seats: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports = mongoose.model("Reservations", reservationSchema);
+module.exports = mongoose.model("Orders", orderSchema);

@@ -9,11 +9,18 @@ const LoginForm = () => {
         <TextField fullWidth></TextField>
       </Box>
       <Box>
-        <Typography>Password</Typography>
+        <Typography variant="subtitle"> Password</Typography>
         <TextField fullWidth> </TextField>
       </Box>
       <Box sx={{ marginTop: 3 }}>
-        <Button fullWidth variant="contained">
+        <Button
+          fullWidth
+          variant="contained"
+          sx={{
+            background: "  #ff8f00",
+            color: "#fff",
+          }}
+        >
           LOGIN
         </Button>
       </Box>

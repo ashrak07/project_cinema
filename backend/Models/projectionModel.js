@@ -23,6 +23,11 @@ const projectionSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  projectionType: {
+    type: String,
+    enum: ["2D", "3D"],
+    default: "2D",
+  },
 });
 
 module.exports = mongoose.model("Projections", projectionSchema);

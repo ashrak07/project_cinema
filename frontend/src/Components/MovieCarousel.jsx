@@ -1,16 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { Container } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
+import {
+  getAllProjections,
+  getProjection,
+  getTakenSeatsByProjection,
+} from "../Services/Api";
+import { useDispatch, useSelector } from "react-redux";
+import { addProjection, addSelectedProjection } from "../Redux/ProjectionSlice";
+import { addTakenSeats, clearSeats } from "../Redux/SeatSlice";
 
-const MovieCarousel = ({ movies }) => {
+const MovieCarousel = () => {
   const [startIndex, setStartIndex] = useState(0);
+  const [selectedId, setSelectedId] = useState(null);
   const itemsPerPage = 5;
+  const dispatch = useDispatch();
 
-  const visibleMovies = movies.slice(startIndex, startIndex + itemsPerPage);
+  useEffect(() => {
+    const fetchMovies = async () => {
+      const projectionData = await getAllProjections();
+      if (projectionData) {
+        dispatch(addProjection(projectionData));
+      }
+    };
+    fetchMovies();
+  }, [dispatch]);
+
+  const projection = useSelector((state) => state.projections.projectionData);
+  console.log("projection ======>", projection);
+
+  const visibleProjection = projection.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   const handleNext = () => {
-    if (startIndex + itemsPerPage < movies.length) {
+    if (startIndex + itemsPerPage < projection.length) {
       setStartIndex(startIndex + itemsPerPage);
     }
   };
@@ -21,69 +47,114 @@ const MovieCarousel = ({ movies }) => {
     }
   };
 
+  const handleClickMovie = async (id) => {
+    console.log("clicked index", id);
+
+    dispatch(clearSeats());
+
+    const selectedProjection = await getProjection(id);
+    console.log("selected prj ===>", selectedProjection);
+    dispatch(addSelectedProjection(selectedProjection));
+
+    setSelectedId(id);
+
+    const takenSeat = await getTakenSeatsByProjection(id);
+    console.log("taken seat ==>", takenSeat);
+    dispatch(addTakenSeats(takenSeat));
+  };
+
   return (
     <Container>
       <div className="" style={{ width: "100%", color: "white" }}>
-        <h2>Films disponibles</h2>
+        <Typography
+          variant="h4"
+          fontWeight={600}
+          fontFamily={"Montserrat"}
+          gutterBottom
+        >
+          Movies available
+        </Typography>
 
-        <div
+        <Box
           className=""
-          style={{
+          sx={{
             display: "flex",
             alignItems: "center",
+            transition: "all 1s ease",
           }}
         >
-          <ArrowBackIosNewIcon
-            onClick={handlePrev}
-            disabled={startIndex === 0}
-          />
-          {/* <button onClick={handlePrev} disabled={startIndex === 0}>
-            <ArrowBackIosNewIcon />
-          </button> */}
+          <Box className="" sx={{}}>
+            <ArrowBackIosNewIcon
+              onClick={handlePrev}
+              disabled={startIndex === 0}
+              sx={{
+                color: "white",
+                ":hover": {
+                  cursor: "pointer",
+                  color: "#ff8f00",
+                  transform: "scale(1.3)",
+                  transition: "all 0.3s ease ",
+                },
+              }}
+            />
+          </Box>
 
-          <div
+          {/* -- CAROUSSEL -- */}
+          <Box
+            className=""
             style={{
+              paddingBlock: 12,
               display: "flex",
               overflow: "hidden",
               gap: "30px",
+              marginBlock: "5px",
               paddingLeft: "30px",
               width: "100%",
               justifyContent: "start",
             }}
-            className=""
           >
-            {visibleMovies.map((movie, index) => (
-              <div
+            {visibleProjection.map((prj, index) => (
+              <Box
                 key={index}
+                tabIndex={0}
                 style={{
                   width: "180px",
                   minWidth: "180px",
-                  border: "1px solid #ccc",
                   borderRadius: "20px",
                   padding: "1px",
                   textAlign: "center",
-                  // backgroundColor: "#f9f9f9",
-                  background: "#ffc107",
+                  background: selectedId === prj._id ? "#ff8f00" : "#455a64", //
+                  transition: "all 0.3s ease",
                 }}
+                sx={{
+                  "&:hover": {
+                    cursor: "pointer",
+                    transform: "scale(1.05)",
+                    boxShadow: "0 3px 3px  #ff8f00",
+                  },
+                }}
+                onClick={() => handleClickMovie(prj._id)}
                 className=""
               >
                 <img
                   className=""
-                  src={movie.poster}
-                  alt={movie.title}
+                  src={`http://localhost:3001/${prj.movie.cover}`}
+                  alt={prj.movie.title}
                   style={{
                     width: "100%",
-                    height: "250px", // 🔧 fixe la hauteur
-                    objectFit: "cover", // 🔧 évite les déformations
+                    height: "250px", //  fixe la hauteur
+                    objectFit: "cover", //  évite les déformations
                     borderRadius: "20px",
                     display: "block",
                   }}
                 />
-                <p
+                <Typography
                   className=""
                   style={{
+                    fontFamily: "BebasNeue",
                     paddingInline: 9,
                     color: "white",
+                    letterSpacing: "0.8px",
                     marginTop: "2px",
                     whiteSpace: "nowrap",
                     marginBottom: "2px",
@@ -91,23 +162,25 @@ const MovieCarousel = ({ movies }) => {
                     textOverflow: "ellipsis",
                   }}
                 >
-                  {movie.title}
-                </p>
-              </div>
+                  {prj.movie.title}{" "}
+                </Typography>{" "}
+              </Box>
             ))}
-          </div>
+          </Box>
 
           <ArrowForwardIosIcon
             onClick={handleNext}
-            disabled={startIndex + itemsPerPage >= movies.length}
+            disabled={startIndex + itemsPerPage >= projection.length}
+            sx={{
+              ":hover": {
+                color: "#ff8f00",
+                cursor: "pointer",
+                transform: "scale(1.3)",
+                transition: "all 0.3s ease",
+              },
+            }}
           />
-          {/* <button
-            onClick={handleNext}
-            disabled={startIndex + itemsPerPage >= movies.length}
-          >
-            <ArrowForwardIosIcon />
-          </button> */}
-        </div>
+        </Box>
       </div>
     </Container>
   );

@@ -18,6 +18,6 @@ router.get("/movie/:id", getMovieById);
 
 router.delete("/movie/:id", deleteMovieById);
 
-router.get("/movie/all", getAllMovies);
+router.get("/movie/", getAllMovies);
 
 module.exports = router;

@@ -26,7 +26,9 @@ const createMovie = asyncHandler(async (req, res) => {
 });
 
 const getAllMovies = asyncHandler(async (req, res) => {
+  console.log("-- invoking getAllMovies --");
   const movie = await Movies.find().lean();
+  console.log(movie);
   res.status(200).json({
     message: "list movies",
     data: movie,

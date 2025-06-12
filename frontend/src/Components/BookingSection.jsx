@@ -9,18 +9,23 @@ const BookingSection = () => {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr 2fr",
+          gridTemplateColumns: "30% 70%",
           gap: "50px",
+          marginBottom: "30px",
         }}
+        className=""
       >
         <div className="" style={{}}>
           <CartComponent />
         </div>
         <div
           style={{
-            backgroundColor: "#78909c",
+            // backgroundColor: "#78909c",
+            // backgroundColor: "#78909c",
+            backgroundColor: "#37474f",
             padding: "10px",
             borderRadius: 10,
+            alignContent: "center",
           }}
         >
           <SeatPicker />

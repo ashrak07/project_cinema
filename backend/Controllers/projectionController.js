@@ -39,7 +39,9 @@ const deleteProjectionById = asyncHandler(async (req, res) => {
 
 const getAllProjection = asyncHandler(async (req, res) => {
   try {
-    const projection = await Projections.find();
+    const projection = await Projections.find()
+      .populate("movie")
+      .populate("room");
     res.status(200).json({
       message: "projection list",
       data: projection,
@@ -52,7 +54,9 @@ const getAllProjection = asyncHandler(async (req, res) => {
 const getProjectionById = asyncHandler(async (req, res) => {
   try {
     const id = req.params.id;
-    const projection = await Projections.findById({ _id: id });
+    const projection = await Projections.findById({ _id: id })
+      .populate("movie")
+      .populate("room");
     res.status(200).json({
       data: projection,
     });

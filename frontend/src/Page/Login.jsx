@@ -25,36 +25,40 @@ const Login = () => {
           }}
         >
           <Box
-            sx={{ background: "#78909c", borderRadius: 5, paddingInline: 5 }}
+            sx={{ background: "#37474f", borderRadius: 5, paddingInline: 5 }}
           >
             <Box
               sx={{
                 borderRadius: 5,
-                // padding: 2,
                 padding: ".1rem",
                 backgroundColor: "#546e7a",
-                // width: 400,
                 width: "full",
                 margin: "auto",
                 marginTop: 3,
-                // textAlign: "center",
-                boxShadow: 2,
               }}
             >
               <Stack direction="row" spacing={2} justifyContent="center">
                 <Button
                   variant={active === "login" ? "contained" : "transparent"}
-                  color="primary"
                   onClick={() => setActive("login")}
-                  sx={{ borderRadius: 5, width: "150px" }}
+                  sx={{
+                    backgroundColor:
+                      // active === "login" ? "#ffb300" : "transparent",
+                      active === "login" ? "#ff8f00" : "transparent",
+                    borderRadius: 5,
+                    width: "150px",
+                  }}
                 >
                   Login
                 </Button>
                 <Button
                   variant={active === "signup" ? "contained" : "transparent"}
-                  color="secondary"
                   onClick={() => setActive("signup")}
-                  sx={{ borderRadius: 5, width: "150px" }}
+                  sx={{
+                    borderRadius: 5,
+                    width: "150px",
+                    background: active === "signup" ? "#ff8f00" : "transparent",
+                  }}
                 >
                   Sign Up
                 </Button>
@@ -74,6 +78,7 @@ const Login = () => {
               />
               <Typography
                 sx={{
+                  fontFamily: "Quicksand",
                   position: "absolute",
                   bottom: 0,
                   left: 0,
