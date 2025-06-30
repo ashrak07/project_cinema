@@ -68,3 +68,65 @@ export const createOrder = async ({ data }) => {
     console.error(error);
   }
 };
+
+export const signUp = async (name, mail, password) => {
+  try {
+    console.log("-- invoking signUp --");
+    const response = await AxiosInstance.post(
+      "/user/register",
+      {
+        name: name,
+        email: mail,
+        password: password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response) {
+      console.log("response:", response);
+      return response;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const login = async (mail, password) => {
+  try {
+    console.log("-- invoking login --");
+    const response = await AxiosInstance.post(
+      "/user/login",
+      {
+        email: mail,
+        password: password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response) {
+      console.log("response:", response);
+      return response;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const generatePdf = async (id) => {
+  try {
+    console.log("-- invoking generate pdf --");
+    const response = await AxiosInstance.post(`/generate/${id}`);
+    if (response) {
+      console.log("response pdf ------", response);
+      return response;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};

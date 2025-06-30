@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { useSelector } from "react-redux";
 import {
   Box,
@@ -17,18 +17,18 @@ import DoneIcon from "@mui/icons-material/Done";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 
-const MovieInfo = () => {
+const MovieInfo = forwardRef((props, ref) => {
   const prj = useSelector((state) => state.projections.selectedProjection);
   console.log("zany ary ny avy am state ==>", prj);
 
   return (
-    <div className="">
-      <Container>
+    <div ref={ref}>
+      <Container className="" sx={{ marginTop: 3 }}>
         <Card
           elevation={0}
           className=""
           sx={{
-            marginY: 10,
+            paddingY: 3,
             display: "grid",
             gap: 10,
             gridTemplateColumns: "1fr 3fr",
@@ -222,6 +222,6 @@ const MovieInfo = () => {
       </Container>
     </div>
   );
-};
+});
 
 export default MovieInfo;

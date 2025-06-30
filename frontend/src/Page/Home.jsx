@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useRef } from "react";
 import DateHeader from "../Components/DateHeader";
 import ListFilm from "../Components/ListFilm";
-import Movies from "../Components/Movies";
+import MovieCarousel from "../Components/MovieCarousel";
 import DateComponent from "../Components/DateComponent";
 import MovieInfo from "../Components/MovieInfo";
 import BookingSection from "../Components/BookingSection";
@@ -12,12 +12,12 @@ const Home = () => {
   const isProjection = useSelector(
     (state) => state.projections.existingProjection
   );
+  const movieInfoRef = useRef(null);
   return (
     <div>
-      {/* <MovieCarousel /> */}
-      <Movies />
+      <MovieCarousel scrollToInfoRef={movieInfoRef} />
       <DateComponent />
-      {isProjection ? <MovieInfo /> : null}
+      {isProjection ? <MovieInfo ref={movieInfoRef} /> : null}
       {isProjection ? <BookingSection /> : null}
     </div>
   );

@@ -2,34 +2,60 @@ import {
   Typography,
   Box,
   Button,
+  Modal,
   Divider,
   CircularProgress,
 } from "@mui/material";
 import React, { useState } from "react";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
+
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSeat, clearSeats } from "../Redux/SeatSlice";
-import { createOrder } from "../Services/Api";
+import { createOrder, generatePdf } from "../Services/Api";
+import { addOrderId } from "../Redux/OrderSlice";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 const CartComponent = () => {
   const dispatch = useDispatch();
   const selectedSeats = useSelector((state) => state.seats.selectedSeats);
+  const userData = useSelector((state) => state.users.userData);
+  const orderId = useSelector((state) => state.orders.orderId);
+
+  const projection = useSelector(
+    (state) => state.projections.selectedProjection
+  );
+
+  const [open, setOpen] = React.useState(false);
+
   const prj = useSelector((state) => state.projections.selectedProjection);
-  console.log("zany ary ny avy am state ==>", prj);
 
   const calulateTotal = () => {
     return selectedSeats.length * prj.movie.priceUnit;
   };
 
   const [loading, setLoading] = useState(false);
+  const [ticketLoader, setTicketLoader] = useState(false);
 
   const fetchCreateOrder = async () => {
     setLoading(true);
     try {
       const data = {
-        projection: "68457cdf29b4778b359f9193",
-        client: "681894cbcf7dd6d9ba0bc37e",
-        clientName: "nexthope",
-        clientEmail: "nexthope@gmail.com",
+        projection: projection._id,
+        client: userData._id,
+        clientName: userData.name,
+        clientEmail: userData.email,
         seats: selectedSeats,
       };
       console.log("request ==>", data);
@@ -37,11 +63,36 @@ const CartComponent = () => {
       if (response) {
         console.log("response avy aty am front =>", response);
         dispatch(clearSeats());
+        console.log("io ny order id:", response.data.data._id);
+        dispatch(addOrderId(response.data.data._id));
       }
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
+      setOpen(true);
+    }
+  };
+
+  const getTicket = async () => {
+    setTicketLoader(true);
+    try {
+      const id = orderId;
+      const response = await generatePdf(id);
+      if (response) {
+        console.log("response pdf ++++++:", response);
+        const link = document.createElement("a");
+        link.href = `http://localhost:3001/TicketGenerated/ticket-${id}.pdf`;
+        link.download = `ticket-${id}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setTicketLoader(false);
+      setOpen(false);
     }
   };
 
@@ -220,6 +271,59 @@ const CartComponent = () => {
             )}
           </Button>
         </Box>
+      </Box>
+
+      {/* -- Modal -- */}
+      <Box
+        sx={{
+          borderRadius: 5,
+        }}
+      >
+        <Modal
+          open={open}
+          //  onClose={handleClose}
+        >
+          <Box sx={style}>
+            <Box sx={{ display: "flex", textAlign: "center" }}>
+              <CheckCircleIcon
+                sx={{
+                  color: "green",
+                  fontSize: 40,
+                }}
+              />
+              <Typography
+                fontFamily={"quicksand"}
+                variant="h5"
+                component="h2"
+                sx={{
+                  paddingTop: "3px",
+                  marginLeft: 1,
+                }}
+              >
+                Order created successfully!
+              </Typography>
+            </Box>
+            <Box sx={{ marginTop: 2 }}>
+              <Typography variant="Quicksand">
+                Thank you for downloading your ticket.
+              </Typography>
+            </Box>
+            <Box
+              sx={{ marginTop: 2, display: "flex", justifyContent: "center" }}
+            >
+              <Button onClick={getTicket} variant="outlined">
+                {ticketLoader ? (
+                  <CircularProgress size={24} />
+                ) : (
+                  <Box sx={{ display: "flex " }}>
+                    <DownloadForOfflineIcon />
+                    <Box sx={{ marginInline: "2px" }}>Download Ticket</Box>
+                  </Box>
+                )}
+              </Button>
+            </Box>
+          </Box>
+        </Modal>
       </Box>
     </Box>
   );

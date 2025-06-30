@@ -10,16 +10,14 @@ import Admin from "../Page/Admin";
 const index = () => {
   return (
     <div>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/movies" element={<Movies />} />
-          <Route path="/kids" element={<Kids />} />
-          <Route path="/animations" element={<Animations />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/admin" element={<Admin />} />
-        </Routes>
-      </Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/movies" element={<Movies />} />
+        <Route path="/kids" element={<Kids />} />
+        <Route path="/animations" element={<Animations />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin" element={<Admin />} />
+      </Routes>
     </div>
   );
 };

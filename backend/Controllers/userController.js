@@ -30,7 +30,9 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+  console.log("-- invoking login --");
   const user = await Users.findOne({ email });
+  console.log("user =>", user);
   if (user && (await bcrypt.compare(password, user.password))) {
     const accessToken = jwt.sign(
       {
@@ -44,6 +46,11 @@ const loginUser = asyncHandler(async (req, res) => {
         expiresIn: "1d",
       }
     );
+    console.log("accesToken:", accessToken);
+    res.status(200).json({
+      data: user,
+      accessToken: accessToken,
+    });
   } else {
     res.status(200);
     throw new Error("email or password not valid");

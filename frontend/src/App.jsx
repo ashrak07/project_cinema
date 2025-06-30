@@ -1,14 +1,19 @@
 import { Box } from "@mui/material";
-import Route from "../src/Router/index";
+import AppRoutes from "../src/Router/index";
 import Header from "./Components/Header";
+import { BrowserRouter } from "react-router-dom";
+import UpcomingMovie from "./Components/UpcomingMovie";
 
 const App = () => {
   return (
     <div>
-      <Box>
-        <Header />
-        <Route />
-      </Box>
+      <BrowserRouter>
+        <Box>
+          <Header />
+          <AppRoutes />
+          {/* <UpcomingMovie /> */}
+        </Box>
+      </BrowserRouter>
     </div>
   );
 };

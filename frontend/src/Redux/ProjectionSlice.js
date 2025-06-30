@@ -6,6 +6,7 @@ export const projectionSlice = createSlice({
     projectionData: [],
     selectedProjection: null,
     existingProjection: false,
+    selectedId: localStorage.getItem("selectedId") || null,
   },
   reducers: {
     addProjection: (state, action) => {
@@ -15,9 +16,14 @@ export const projectionSlice = createSlice({
       state.selectedProjection = action.payload;
       state.existingProjection = true;
     },
+    addSelectedId: (state, action) => {
+      state.selectedId = action.payload;
+      localStorage.setItem("selectedId", state.selectedId);
+    },
   },
 });
 
-export const { addProjection, addSelectedProjection } = projectionSlice.actions;
+export const { addProjection, addSelectedProjection, addSelectedId } =
+  projectionSlice.actions;
 
 export default projectionSlice.reducer;

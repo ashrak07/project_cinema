@@ -10,9 +10,12 @@ import {
 import React, { useState } from "react";
 import LoginForm from "../Components/LoginForm";
 import SignUpForm from "../Components/SignUpForm";
+import { useDispatch, useSelector } from "react-redux";
+import { changeToLogin, changeToSignin } from "../Redux/UserSlice";
 
 const Login = () => {
-  const [active, setActive] = useState("signup");
+  const active = useSelector((state) => state.users.showLogin);
+  const dispatch = useDispatch();
   return (
     <div>
       <Container>
@@ -40,7 +43,7 @@ const Login = () => {
               <Stack direction="row" spacing={2} justifyContent="center">
                 <Button
                   variant={active === "login" ? "contained" : "transparent"}
-                  onClick={() => setActive("login")}
+                  onClick={() => dispatch(changeToLogin())}
                   sx={{
                     backgroundColor:
                       // active === "login" ? "#ffb300" : "transparent",
@@ -53,7 +56,7 @@ const Login = () => {
                 </Button>
                 <Button
                   variant={active === "signup" ? "contained" : "transparent"}
-                  onClick={() => setActive("signup")}
+                  onClick={() => dispatch(changeToSignin())}
                   sx={{
                     borderRadius: 5,
                     width: "150px",

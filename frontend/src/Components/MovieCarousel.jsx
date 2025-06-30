@@ -11,11 +11,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { addProjection, addSelectedProjection } from "../Redux/ProjectionSlice";
 import { addTakenSeats, clearSeats } from "../Redux/SeatSlice";
 
-const MovieCarousel = () => {
+const MovieCarousel = ({ scrollToInfoRef }) => {
   const [startIndex, setStartIndex] = useState(0);
   const [selectedId, setSelectedId] = useState(null);
-  const itemsPerPage = 5;
   const dispatch = useDispatch();
+
+  const itemsPerPage = 5;
+  const itemWidth = 180;
+  const itemGap = 40;
+  const fullItemWidth = itemWidth + itemGap;
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -28,102 +32,114 @@ const MovieCarousel = () => {
   }, [dispatch]);
 
   const projection = useSelector((state) => state.projections.projectionData);
-  console.log("projection ======>", projection);
-
-  const visibleProjection = projection.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
+  const totalItems = projection.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const handleNext = () => {
-    if (startIndex + itemsPerPage < projection.length) {
-      setStartIndex(startIndex + itemsPerPage);
+    if (startIndex + 1 < totalPages) {
+      setStartIndex(startIndex + 1);
     }
   };
 
   const handlePrev = () => {
-    if (startIndex - itemsPerPage >= 0) {
-      setStartIndex(startIndex - itemsPerPage);
+    if (startIndex > 0) {
+      setStartIndex(startIndex - 1);
     }
   };
 
   const handleClickMovie = async (id) => {
-    console.log("clicked index", id);
-
     dispatch(clearSeats());
-
     const selectedProjection = await getProjection(id);
-    console.log("selected prj ===>", selectedProjection);
     dispatch(addSelectedProjection(selectedProjection));
-
     setSelectedId(id);
 
     const takenSeat = await getTakenSeatsByProjection(id);
-    console.log("taken seat ==>", takenSeat);
     dispatch(addTakenSeats(takenSeat));
+
+    //  Scroll vers MovieInfo
+    scrollToInfoRef?.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
 
-  return (
-    <Container>
-      <div className="" style={{ width: "100%", color: "white" }}>
-        <Typography
-          variant="h4"
-          fontWeight={600}
-          fontFamily={"Montserrat"}
-          gutterBottom
-        >
-          Movies available
-        </Typography>
+  //  Important : calcul dynamique du décalage maximum
+  const maxTranslateX = Math.max(
+    0,
+    totalItems * fullItemWidth - itemsPerPage * fullItemWidth
+  );
 
+  const translateX = Math.min(
+    startIndex * itemsPerPage * fullItemWidth,
+    maxTranslateX
+  );
+
+  return (
+    <Container
+      sx={{
+        marginBlock: 5,
+      }}
+    >
+      <Typography
+        variant="h4"
+        fontWeight={600}
+        fontFamily={"Montserrat"}
+        gutterBottom
+        style={{ color: "white" }}
+      >
+        Movies available
+      </Typography>
+
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        {/* PREVIOUS ICON */}
+        <ArrowBackIosNewIcon
+          onClick={handlePrev}
+          sx={{
+            color: "white",
+            ":hover": {
+              cursor: "pointer",
+              color: "#ff8f00",
+              transform: "scale(1.3)",
+              transition: "all 0.3s ease",
+            },
+          }}
+        />
+
+        {/* CAROUSEL VIEWPORT */}
         <Box
           className=""
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            transition: "all 1s ease",
+          style={{
+            width: "100%",
+            padding: 11,
+            // maxWidth: `${itemsPerPage * fullItemWidth - itemGap}px`, // = 990px
+            overflow: "hidden",
           }}
         >
-          <Box className="" sx={{}}>
-            <ArrowBackIosNewIcon
-              onClick={handlePrev}
-              disabled={startIndex === 0}
-              sx={{
-                color: "white",
-                ":hover": {
-                  cursor: "pointer",
-                  color: "#ff8f00",
-                  transform: "scale(1.3)",
-                  transition: "all 0.3s ease ",
-                },
-              }}
-            />
-          </Box>
-
-          {/* -- CAROUSSEL -- */}
+          {/* CAROUSEL TRACK */}
           <Box
-            className=""
             style={{
-              paddingBlock: 12,
               display: "flex",
-              overflow: "hidden",
-              gap: "30px",
-              marginBlock: "5px",
-              paddingLeft: "30px",
-              width: "100%",
-              justifyContent: "start",
+              gap: `${itemGap}px`,
+              transition: "transform 0.5s ease",
+              transform: `translateX(-${translateX}px)`,
             }}
           >
-            {visibleProjection.map((prj, index) => (
+            {projection.map((prj, index) => (
               <Box
                 key={index}
                 tabIndex={0}
                 style={{
-                  width: "180px",
-                  minWidth: "180px",
+                  width: `${itemWidth}px`,
+                  minWidth: `${itemWidth}px`,
                   borderRadius: "20px",
                   padding: "1px",
                   textAlign: "center",
-                  background: selectedId === prj._id ? "#ff8f00" : "#455a64", //
+                  background: selectedId === prj._id ? "#ff8f00" : "#455a64",
                   transition: "all 0.3s ease",
                 }}
                 sx={{
@@ -134,22 +150,19 @@ const MovieCarousel = () => {
                   },
                 }}
                 onClick={() => handleClickMovie(prj._id)}
-                className=""
               >
                 <img
-                  className=""
                   src={`http://localhost:3001/${prj.movie.cover}`}
                   alt={prj.movie.title}
                   style={{
                     width: "100%",
-                    height: "250px", //  fixe la hauteur
-                    objectFit: "cover", //  évite les déformations
+                    height: "250px",
+                    objectFit: "cover",
                     borderRadius: "20px",
                     display: "block",
                   }}
                 />
                 <Typography
-                  className=""
                   style={{
                     fontFamily: "BebasNeue",
                     paddingInline: 9,
@@ -162,26 +175,27 @@ const MovieCarousel = () => {
                     textOverflow: "ellipsis",
                   }}
                 >
-                  {prj.movie.title}{" "}
-                </Typography>{" "}
+                  {prj.movie.title}
+                </Typography>
               </Box>
             ))}
           </Box>
-
-          <ArrowForwardIosIcon
-            onClick={handleNext}
-            disabled={startIndex + itemsPerPage >= projection.length}
-            sx={{
-              ":hover": {
-                color: "#ff8f00",
-                cursor: "pointer",
-                transform: "scale(1.3)",
-                transition: "all 0.3s ease",
-              },
-            }}
-          />
         </Box>
-      </div>
+
+        {/* NEXT ICON */}
+        <ArrowForwardIosIcon
+          onClick={handleNext}
+          sx={{
+            color: "white",
+            ":hover": {
+              cursor: "pointer",
+              color: "#ff8f00",
+              transform: "scale(1.3)",
+              transition: "all 0.3s ease",
+            },
+          }}
+        />
+      </Box>
     </Container>
   );
 };
